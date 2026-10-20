@@ -1,0 +1,68 @@
+@startuml AllComponents_Class
+
+left to right direction
+
+rectangle Controller {
+    class ControllerAggregate {}
+    struct Event {}
+    rectangle Handlers {
+        class InitHandler {}
+        class RuntimeHandler {}
+        class ErrorHandler {}
+    }
+}
+
+rectangle AudioProcessor {
+    class AudioProcessorAggregate {}
+    rectangle AudioTools{
+        class AudioCapture {}
+        struct Audio {}
+        class AudioTransform {}
+    }
+}
+
+rectangle Visualizer {
+    class VisualAggregate {}
+    rectangle VisualTools {
+        class VisualBuilder {}
+        class VisualSerializer {}
+        struct VisualRecipe {}
+    }
+    class VisualProgram {}
+    class VisualProgramManager {}
+    class WindowManager {}
+}
+
+ControllerAggregate --> AudioProcessorAggregate : Manages
+ControllerAggregate --> VisualAggregate : Manages
+ControllerAggregate --> InitHandler : Uses
+ControllerAggregate --> RuntimeHandler : Uses
+ControllerAggregate --> ErrorHandler : Uses
+InitHandler ..> Event : Subscribes
+RuntimeHandler ..> Event : Subscribes
+ErrorHandler ..> Event : Subscribes
+
+AudioProcessorAggregate --> AudioCapture : Uses
+AudioProcessorAggregate --> AudioTransform : Manages
+AudioCapture --> Audio : Captures
+AudioCapture --> AudioTransform : Uses
+AudioTransform ..> Audio : Transforms
+AudioProcessorAggregate ..> Event : Publishes
+
+VisualAggregate --> WindowManager : Uses
+WindowManager ..> Event : Publishes
+WindowManager ..> VisualProgram : Displays
+VisualAggregate --> VisualProgramManager : Uses
+VisualProgramManager --> VisualProgram : Manages
+VisualProgramManager --> VisualSerializer : Manages
+VisualProgramManager --> VisualBuilder : Uses
+VisualProgramManager ..> Event : Publishes
+VisualBuilder --> VisualRecipe : Implements
+VisualBuilder --> VisualProgram : Builds
+VisualBuilder --> VisualSerializer : Uses
+VisualSerializer --> VisualRecipe : Serializes
+VisualProgram ..> VisualRecipe : Realizes
+
+VisualProgram ..> Audio : Visualizes
+
+@enduml
