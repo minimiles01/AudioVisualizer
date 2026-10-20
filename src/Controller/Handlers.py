@@ -49,9 +49,15 @@ class RuntimeHandler:
     def __init__(self, Controller):
         self.Controller = Controller
         RuntimeEvent.subscribe(self.print_runtime_event)
+        RuntimeEvent.subscribe(self.handle_runtime_event)
 
     def print_runtime_event(self, event: RuntimeEvent):
         print(event)
+
+    def handle_runtime_event(self, event: RuntimeEvent):
+        if event.caller == "WindowManger.__call__":
+            if event.payload == "Quit":
+                self.Controller.running = False
                 
 class ErrorHandler:
     def __init__(self, Controller):
