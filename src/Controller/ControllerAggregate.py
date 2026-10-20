@@ -1,3 +1,4 @@
+from Controller.Handlers import *
 from AudioProcessor import AudioProcessorAggregate
 from Visualizer import VisualAggregate
 
@@ -15,4 +16,5 @@ class ControllerAggregate:
     def run(self):
         RH = RuntimeHandler(self)
         while self.running:
-            pass
+            AudioChunk = self.AudioProcessor()
+            self.Visualizer(AudioChunk)

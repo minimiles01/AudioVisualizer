@@ -1,3 +1,4 @@
+from Controller.Handlers import *
 from Visualizer import WindowManager
 from Visualizer import VisualProgramManager
 
@@ -10,6 +11,6 @@ class VisualAggregate:
 
         InitEvent.publish(status="Complete", payload="| |/ Visualizer Done.\n")
 
-    def __call__(self):
-        self.VisualProgramManager()
+    def __call__(self, AudioChunk):
+        self.VisualProgramManager(AudioChunk)
         self.WindowManager()

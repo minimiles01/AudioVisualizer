@@ -30,5 +30,6 @@ class VisualProgramManager:
             except:
                 ErrorEvent.publish(status="VisualProgram_DeletionFailed", payload=str(VisualRecipe_path)+" VisualProgram deletion failed.\n")
 
-    def __call__(self):
-        pass
+    def __call__(self, AudioChunk):
+        for VisualRecipe_path, VisualProgram in self.VisualPrograms.items():
+            VisualProgram(AudioChunk)
