@@ -3,7 +3,16 @@ from Visualizer import VisualAggregate
 
 class ControllerAggregate:
     def __init__(self):
-        pass
+        IH = InitHandler(self)
+        InitEvent.publish(status="Initializing", payload="Initializing Controller...\n")
+        
+        self.AudioProcessor = AudioProcessorAggregate.AudioProcessorAggregate()
+        self.Visualizer = VisualAggregate.VisualAggregate()
+        self.running = True
+
+        InitEvent.publish(status="Complete", payload="|/ Controller Done.\n\n")
 
     def run(self):
-        pass
+        RH = RuntimeHandler(self)
+        while self.running:
+            pass
