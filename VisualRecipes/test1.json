@@ -1,0 +1,28 @@
+[
+    {
+        "TYPE" : "VERTEX",
+        "COMPONENTS" : [
+            {
+                "SOURCE_TYPE" : "FILE",
+                "SOURCE" : "src/shaders/simple_vertex.glsl"
+            }    
+        ]
+    },{
+        "TYPE" : "FRAGMENT",
+        "COMPONENTS" : [
+            {
+                "SOURCE_TYPE" : "FILE",
+                "SOURCE" : "src/shaders/components/fragment_header.glsl"
+            },{
+                "SOURCE_TYPE" : "STRING",
+                "SOURCE" : "void main () {\n"
+            },{
+                "SOURCE_TYPE" : "STRING",
+                "SOURCE" : "\tcolor = vec4(fragmenttexcoord.x, fragmenttexcoord.y, 0, 0);\n"
+            },{
+                "SOURCE_TYPE" : "STRING",
+                    "SOURCE" : "}\n"
+            }   
+        ]
+    }
+]

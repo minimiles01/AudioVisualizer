@@ -31,7 +31,7 @@ class WindowManger:
 
         self.clock.tick(self.clock_rate)
 
-        glClear(GL_COLOR_BUFFER_BIT)
+        #glClear(GL_COLOR_BUFFER_BIT)
         pg.display.flip()
 
     def __del__(self):

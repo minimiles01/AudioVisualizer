@@ -1,35 +1,32 @@
 from Controller.Handlers import *
 from Visualizer import VisualTools
+from OpenGL.GL import *
+import numpy as np
 
 class VisualProgramManager:
     def __init__(self):
-        pass
         InitEvent.publish(status="Initializing", payload="| |-Initializing VisualProgramManager...\n")
         
         self.VisualSerializer = VisualTools.VisualSerializer()
         self.VisualBuilder = VisualTools.VisualBuilder(serializer=self.VisualSerializer)
-        self.VisualPrograms = {}
+        self.VisualProgram = None
 
         InitEvent.publish(status="Complete", payload="| | |/ VisualProgramManager Done.\n")
 
-    def create_VisualProgram(self, VisualRecipe_paths):
-        pass
-        for VisualRecipe_path in VisualRecipe_paths:
-            try:
-                self.VisualPrograms[VisualRecipe_paths] = self.VisualBuilder.build(VisualRecipe_path)
-                RuntimeEvent.publish(status="Running", payload=str(VisualRecipe_path)+" VisualProgram created.\n")
-            except:
-                ErrorEvent.publish(status="VisualProgram_CreationFailed", payload=str(VisualRecipe_path)+" VisualProgram creation failed.\n")
-
-    def delete_VisualProgram(self, VisualRecipe_paths):
-        pass
-        for VisualRecipe_path, VisualProgram in self.VisualPrograms.items():
-            try:
-                _ = self.VisualPrograms.pop(VisualRecipe_paths, None)
-                RuntimeEvent.publish(status="Running", payload=str(VisualRecipe_path)+" VisualProgram deleted.\n")
-            except:
-                ErrorEvent.publish(status="VisualProgram_DeletionFailed", payload=str(VisualRecipe_path)+" VisualProgram deletion failed.\n")
-
     def __call__(self, AudioChunk):
-        for VisualRecipe_path, VisualProgram in self.VisualPrograms.items():
-            VisualProgram(AudioChunk)
+        self.VisualProgram.update_buffer(AudioChunk)
+        self.VisualProgram.step_VisualProgram()
+    
+    def __del__(self):
+        try:
+            self.VisualProgram.delete()
+            RuntimeEvent.publish(status="VisualProgram_Deleted")
+        except Exception as e:
+            ErrorEvent.publish(status="VisualProgram_DeleteFailed", payload=e)
+
+    def create_VisualProgram(self, VisualRecipe_path):
+        try:
+            self.VisualProgram = self.VisualBuilder.build(VisualRecipe_path)
+            InitEvent.publish(status="VisualProgram_Created")
+        except Exception as e:
+            ErrorEvent.publish(status="VisualProgram_CreationFailed", payload=e)

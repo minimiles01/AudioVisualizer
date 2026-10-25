@@ -1,0 +1,18 @@
+[
+    {
+        "SOURCE_TYPE" : "STRING",
+        "SOURCE" : "#version 430 core\n"
+    },{
+        "SOURCE_TYPE" : "FILE",
+        "SOURCE" : "AudioChunk_buffer.glsl"
+    },{
+        "SOURCE_TYPE" : "STRING",
+        "SOURCE" : "void main () {\n"
+    },{
+        "SOURCE_TYPE" : "FILE",
+        "SOURCE" : "component1.glsl"
+    },{
+        "SOURCE_TYPE" : "STRING",
+        "SOURCE" : "}\n"
+    }
+]

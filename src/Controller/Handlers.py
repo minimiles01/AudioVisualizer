@@ -41,9 +41,17 @@ class InitHandler:
     def __init__(self, Controller):
         self.Controller = Controller
         InitEvent.subscribe(self.print_init_payload)
+        InitEvent.subscribe(self.handle_init_event)
 
     def print_init_payload(self, event: InitEvent):
         print(event.payload, end="")
+
+    def handle_init_event(self, event: InitEvent):
+        if event.caller == "<module>":
+            if event.status == "Create_VisualProgram":
+                self.Controller.Visualizer.VisualProgramManager.create_VisualProgram(event.payload)
+        else:
+            print(event.caller)
 
 class RuntimeHandler:
     def __init__(self, Controller):
