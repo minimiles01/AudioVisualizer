@@ -40,18 +40,21 @@ class ErrorEvent(Event):
 class InitHandler:
     def __init__(self, Controller):
         self.Controller = Controller
-        InitEvent.subscribe(self.print_init_payload)
+        InitEvent.subscribe(self.print_init_event)
         InitEvent.subscribe(self.handle_init_event)
 
-    def print_init_payload(self, event: InitEvent):
-        print(event.payload, end="")
+    def print_init_event(self, event: InitEvent):
+        print(event)
+
+    #def print_init_payload(self, event: InitEvent):
+    #    print(event.payload, end="")
 
     def handle_init_event(self, event: InitEvent):
         if event.caller == "<module>":
             if event.status == "Create_VisualProgram":
-                self.Controller.Visualizer.VisualProgramManager.create_VisualProgram(event.payload)
-        else:
-            print(event.caller)
+                AudioChunk = self.Controller.AudioProcessor()
+                self.Controller.Visualizer.VisualProgramManager.create_VisualProgram(\
+                    VisualRecipe_path=event.payload, AudioChunk=AudioChunk)
 
 class RuntimeHandler:
     def __init__(self, Controller):
@@ -70,3 +73,7 @@ class RuntimeHandler:
 class ErrorHandler:
     def __init__(self, Controller):
         self.Controller = Controller
+        RuntimeEvent.subscribe(self.print_error_event)
+
+    def print_error_event(self, event: ErrorEvent):
+            print(event)

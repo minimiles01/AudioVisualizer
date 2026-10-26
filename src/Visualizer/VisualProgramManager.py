@@ -20,13 +20,12 @@ class VisualProgramManager:
     def __del__(self):
         try:
             self.VisualProgram.delete()
-            RuntimeEvent.publish(status="VisualProgram_Deleted")
         except Exception as e:
             ErrorEvent.publish(status="VisualProgram_DeleteFailed", payload=e)
 
-    def create_VisualProgram(self, VisualRecipe_path):
+    def create_VisualProgram(self, VisualRecipe_path, AudioChunk):
         try:
-            self.VisualProgram = self.VisualBuilder.build(VisualRecipe_path)
+            self.VisualProgram = self.VisualBuilder.build(VisualRecipe_path, AudioChunk)
             InitEvent.publish(status="VisualProgram_Created")
         except Exception as e:
             ErrorEvent.publish(status="VisualProgram_CreationFailed", payload=e)

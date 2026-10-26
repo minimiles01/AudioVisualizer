@@ -1,0 +1,31 @@
+[
+    {
+        "TYPE" : "VERTEX",
+        "COMPONENTS" : [
+            {
+                "SOURCE_TYPE" : "FILE",
+                "SOURCE" : "src/shaders/simple_vertex.glsl"
+            }    
+        ]
+    },{
+        "TYPE" : "FRAGMENT",
+        "COMPONENTS" : [
+            {
+                "SOURCE_TYPE" : "FILE",
+                "SOURCE" : "src/shaders/components/fragment_header.glsl"
+            },{
+                "SOURCE_TYPE" : "FILE",
+                "SOURCE" : "src/shaders/components/AudioChunk_buffer.glsl"
+            },{
+                "SOURCE_TYPE" : "STRING",
+                "SOURCE" : "void main () {\n"
+            },{
+                "SOURCE_TYPE" : "FILE",
+                "SOURCE" : "src/shaders/components/test2.glsl"
+            },{
+                "SOURCE_TYPE" : "STRING",
+                    "SOURCE" : "}\n"
+            }   
+        ]
+    }
+]

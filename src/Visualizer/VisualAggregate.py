@@ -6,7 +6,7 @@ class VisualAggregate:
     def __init__(self):
         InitEvent.publish(status="Initializing", payload="|-Initializing Visualizer...\n")
         
-        self.WindowManager = WindowManager.WindowManger()
+        self.WindowManager = WindowManager.WindowManger(screen_size=(1000, 250))
         self.VisualProgramManager = VisualProgramManager.VisualProgramManager()
 
         InitEvent.publish(status="Complete", payload="| |/ Visualizer Done.\n")

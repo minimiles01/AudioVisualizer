@@ -4,7 +4,7 @@ from OpenGL.GL import *
 import ctypes
 
 class WindowManger:    
-    def __init__(self, fullscreen=True, clock_rate=60):
+    def __init__(self, screen_size=None, clock_rate=60):
         InitEvent.publish(status="Initializing", payload="| |-Initializing WindowManager...")
 
         pg.init()
@@ -13,10 +13,12 @@ class WindowManger:
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 1)
 
-        if fullscreen:
+        if screen_size == None:
             monitors = pg.display.get_desktop_sizes()
-            self.resolution = (monitors[0][0], monitors[0][1])
-        self.screen = pg.display.set_mode(self.resolution, pg.OPENGL | pg.DOUBLEBUF)
+            self.screen_size = (monitors[0][0], monitors[0][1])
+        else:
+            self.screen_size = screen_size
+        self.screen = pg.display.set_mode(self.screen_size, pg.OPENGL | pg.DOUBLEBUF)
         glClearColor(0.3921,0.5843,0.9294,1.) #Cornflower blue default background ;)
 
         self.clock_rate = clock_rate
