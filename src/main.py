@@ -4,8 +4,7 @@ from Controller import ControllerAggregate
 if __name__ == "__main__":
     controller = ControllerAggregate.ControllerAggregate()
 
-    #Change this to an InitEvent and write startup logic
-    #InitEvent.publish(status="Create_VisualProgram", payload="VisualRecipes/test1.json")
-    InitEvent.publish(status="Create_VisualProgram", payload="VisualRecipes/test2.json")
-    
+    shader_paths = [("src/shaders/simple_vertex.glsl", "VERTEX"), ("src/shaders/test3.glsl", "FRAGMENT")]
+    InitEvent.publish(status="Create_VisualProgram", payload=shader_paths)
+
     controller.run()

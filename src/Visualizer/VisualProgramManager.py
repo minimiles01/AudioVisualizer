@@ -23,9 +23,9 @@ class VisualProgramManager:
         except Exception as e:
             ErrorEvent.publish(status="VisualProgram_DeleteFailed", payload=e)
 
-    def create_VisualProgram(self, VisualRecipe_path, AudioChunk):
+    def create_VisualProgram(self, shader_paths, AudioChunk):
         try:
-            self.VisualProgram = self.VisualBuilder.build(VisualRecipe_path, AudioChunk)
+            self.VisualProgram = self.VisualBuilder.build(shader_paths, AudioChunk)
             InitEvent.publish(status="VisualProgram_Created")
         except Exception as e:
             ErrorEvent.publish(status="VisualProgram_CreationFailed", payload=e)

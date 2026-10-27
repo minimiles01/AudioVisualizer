@@ -54,7 +54,7 @@ class InitHandler:
             if event.status == "Create_VisualProgram":
                 AudioChunk = self.Controller.AudioProcessor()
                 self.Controller.Visualizer.VisualProgramManager.create_VisualProgram(\
-                    VisualRecipe_path=event.payload, AudioChunk=AudioChunk)
+                    shader_paths=event.payload, AudioChunk=AudioChunk)
 
 class RuntimeHandler:
     def __init__(self, Controller):

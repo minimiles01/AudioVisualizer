@@ -2,7 +2,6 @@ from Controller.Handlers import *
 from OpenGL.GL import *
 import ctypes
 from OpenGL.GL.shaders import compileProgram, compileShader
-import json
 import numpy as np
 from dataclasses import astuple
 
@@ -14,12 +13,11 @@ class VisualBuilder:
 
         InitEvent.publish(status="Complete", payload="Done.\n")
 
-    def build(self, recipe_path, AudioChunk, keywords=None):
+    def build(self, shader_paths, AudioChunk, keywords=None):
         try:
-            recipe = self.serializer.load_recipe(recipe_path)
-            shader_source_list = self.serializer.parse_recipe(recipe, keywords)
+            shader_source_list = self.serializer.load_shaders(shader_paths, keywords)
         except Exception as e:
-            ErrorEvent.publish(status="VisualProgram_RecipeLoadingFailed", payload=e)
+            ErrorEvent.publish(status="VisualProgram_LoadShadersFailed", payload=e)
 
         try:
             vertex_buffer = self.setup_vertex_buffer()
@@ -70,32 +68,17 @@ class VisualSerializer:
 
         InitEvent.publish(status="Complete", payload="Done.\n")
 
-    def load_recipe(self, recipe_path):
-            with open(recipe_path, "r") as recipe_file:
-                recipe = json.load(recipe_file)
-            return recipe
-    
-    def parse_recipe(self, recipe, keywords=None):
+    def load_shaders(self, shader_paths, keywords=None):
         shader_source_list = []
-        for shader in recipe:
-            component_list = []
-            for component in shader["COMPONENTS"]:
-                if component["SOURCE_TYPE"] == "STRING":
-                    component_list.append(component["SOURCE"])
-
-                elif component["SOURCE_TYPE"] == "FILE":
-                    with open(component["SOURCE"], "r") as component_file:
-                        component_source = "".join(component_file.readlines())
-                        component_list.append(component_source)
-
-            shader_source = "\n".join(component_list)
+        for shader_path in shader_paths:
+            with open(shader_path[0], "r") as shader_file:
+                shader_source = shader_file.read()
 
             if keywords is not None:
                 for key, value in keywords.items():
                     shader_source = shader_source.replace(key, value)
 
-            shader_source_list.append((shader_source, shader["TYPE"]))
-                
+            shader_source_list.append((shader_source, shader_path[1]))
         return shader_source_list
 
 class VisualPrototype:
