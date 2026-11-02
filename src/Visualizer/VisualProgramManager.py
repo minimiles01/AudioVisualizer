@@ -1,16 +1,15 @@
 from Controller.Handlers import *
-from Visualizer import VisualTools
+from Visualizer import VisualBuilder
 from OpenGL.GL import *
 import numpy as np
 
 class VisualProgramManager:
-    def __init__(self):
-        InitEvent.publish(status="Initializing", payload="| |-Initializing VisualProgramManager...\n")
+    def __init__(self, AudioChunk, CONFIG):
         
-        self.VisualSerializer = VisualTools.VisualSerializer()
-        self.VisualBuilder = VisualTools.VisualBuilder(serializer=self.VisualSerializer)
-        self.VisualProgram = None
-
+        InitEvent.publish(status="Initializing", payload="| |-Initializing VisualProgramManager...\n")
+        self.VisualSerializer = VisualBuilder.VisualSerializer()
+        self.VisualBuilder = VisualBuilder.VisualBuilder()
+        self.VisualProgram = self.create_VisualProgram(AudioChunk, CONFIG)
         InitEvent.publish(status="Complete", payload="| | |/ VisualProgramManager Done.\n")
 
     def __call__(self, AudioChunk):
@@ -23,9 +22,15 @@ class VisualProgramManager:
         except Exception as e:
             ErrorEvent.publish(status="VisualProgram_DeleteFailed", payload=e)
 
-    def create_VisualProgram(self, shader_paths, AudioChunk):
+    def create_VisualProgram(self, AudioChunk, CONFIG):
         try:
-            self.VisualProgram = self.VisualBuilder.build(shader_paths, AudioChunk)
-            InitEvent.publish(status="VisualProgram_Created")
+            keywords = CONFIG.model_dump()
+            shader_source_list = self.VisualSerializer.load_shaders(CONFIG.SHADER_PATHS, keywords=keywords)
         except Exception as e:
-            ErrorEvent.publish(status="VisualProgram_CreationFailed", payload=e)
+            ErrorEvent.publish(status="VisualProgram_LoadShadersFailed", payload=e)
+        try:
+            VisualProgram = self.VisualBuilder.build(shader_source_list, AudioChunk)
+            InitEvent.publish(status="VisualProgram_Created")
+            return VisualProgram
+        except Exception as e:
+            ErrorEvent.publish(status="VisualProgram_BuildFailed", payload=e)

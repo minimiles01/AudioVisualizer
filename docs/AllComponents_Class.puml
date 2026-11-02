@@ -2,8 +2,11 @@
 
 left to right direction
 
+class Main {}
+
 rectangle Controller {
     class ControllerAggregate {}
+    struct AudioVisualizerConfig {}
     struct Event {}
     rectangle Handlers {
         class InitHandler {}
@@ -14,27 +17,28 @@ rectangle Controller {
 
 rectangle AudioProcessor {
     class AudioProcessorAggregate {}
-    rectangle AudioTools{
-        class AudioCapture {}
-        struct Audio {}
-        class AudioTransform {}
-    }
+    class AudioSource {}
+    struct Audio {}
+    class AudioTransform {}
 }
 
 rectangle Visualizer {
     class VisualAggregate {}
-    rectangle VisualTools {
+    rectangle _VisualBuilder {
         class VisualBuilder {}
         class VisualSerializer {}
-        struct VisualRecipe {}
+        class VisualPrototype {}
+        struct ShaderProgram {}
     }
     class VisualProgram {}
     class VisualProgramManager {}
     class WindowManager {}
 }
 
+Main --> ControllerAggregate : Initialization
 ControllerAggregate --> AudioProcessorAggregate : Manages
 ControllerAggregate --> VisualAggregate : Manages
+ControllerAggregate --> AudioVisualizerConfig : Loads
 ControllerAggregate --> InitHandler : Uses
 ControllerAggregate --> RuntimeHandler : Uses
 ControllerAggregate --> ErrorHandler : Uses
@@ -42,11 +46,10 @@ InitHandler ..> Event : Subscribes
 RuntimeHandler ..> Event : Subscribes
 ErrorHandler ..> Event : Subscribes
 
-AudioProcessorAggregate --> AudioCapture : Uses
-AudioProcessorAggregate --> AudioTransform : Manages
-AudioCapture --> Audio : Captures
-AudioCapture --> AudioTransform : Uses
-AudioTransform ..> Audio : Transforms
+AudioProcessorAggregate --> AudioSource : Uses
+AudioProcessorAggregate --> AudioTransform : Uses
+AudioSource --> Audio : Captures
+AudioTransform --> Audio : Transforms
 AudioProcessorAggregate ..> Event : Publishes
 
 VisualAggregate --> WindowManager : Uses
@@ -54,14 +57,14 @@ WindowManager ..> Event : Publishes
 WindowManager ..> VisualProgram : Displays
 VisualAggregate --> VisualProgramManager : Uses
 VisualProgramManager --> VisualProgram : Manages
-VisualProgramManager --> VisualSerializer : Manages
+VisualProgramManager --> VisualSerializer : Uses
 VisualProgramManager --> VisualBuilder : Uses
 VisualProgramManager ..> Event : Publishes
-VisualBuilder --> VisualRecipe : Implements
+VisualBuilder --> VisualPrototype : Uses
 VisualBuilder --> VisualProgram : Builds
-VisualBuilder --> VisualSerializer : Uses
-VisualSerializer --> VisualRecipe : Serializes
-VisualProgram ..> VisualRecipe : Realizes
+VisualBuilder ..> VisualSerializer : Depends on
+VisualSerializer --> ShaderProgram : Reads/Parses
+VisualProgram ..> ShaderProgram : Realizes
 
 VisualProgram ..> Audio : Visualizes
 

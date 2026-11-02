@@ -1,0 +1,18 @@
+{
+    "AUDIO_SOURCE" : "SPEAKER",
+    "AUDIO_SAMPLE_RATE" : 44100,
+    "AUDIO_SAMPLE_SIZE" : 1024,
+
+    "AUDIO_FFT_BINS" : 100,
+    "AUDIO_FFT_DECAY_RATE" : 0.01,
+    "AUDIO_FFT_SMOOTH_WINDOW" : 7,
+    "AUDIO_MIN_FREQUENCY" : 160,
+    "AUDIO_MAX_FREQUENCY" : 20000,
+
+    "SCREEN_SIZE" : [1000, 250],
+    "MAX_CLOCK_RATE" : 60,
+    "SHADER_PATHS" : [
+        ["src/shaders/simple_vertex.glsl", "VERTEX"], 
+        ["src/shaders/test4.glsl", "FRAGMENT"]
+    ]
+}
