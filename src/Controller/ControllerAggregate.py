@@ -51,6 +51,14 @@ class AudioVisualizerConfig(BaseModel):
     AUDIO_MIN_FREQUENCY: int = 160
     AUDIO_MAX_FREQUENCY: int = 20000
     
+    SHADER_PATHS: list
     SCREEN_SIZE: list | None = None
     MAX_CLOCK_RATE: int = 60
-    SHADER_PATHS: list
+    BAR_HEIGHT_SCALING: float = 0.5
+    WRAPPING_NUMBER: float = 1.0
+    BAR_HEIGHT_SCALING: float = 0.2
+    DECAY_BAR_HEIGHT: float = 0.1
+    BACKGROUND_COLOR: str = "0.0, 0.0, 0.0"
+    FFT_BAR_COLOR: str = "1.0, 1.0, 1.0"
+    DECAY_BAR_COLOR: str = "1.0, 0.0, 0.0"
+    

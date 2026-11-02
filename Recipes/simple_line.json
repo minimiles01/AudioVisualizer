@@ -1,0 +1,24 @@
+{
+    "AUDIO_SOURCE" : "SPEAKER",
+    "AUDIO_SAMPLE_RATE" : 44100,
+    "AUDIO_SAMPLE_SIZE" : 1024,
+
+    "AUDIO_FFT_BINS" : 100,
+    "AUDIO_FFT_DECAY_RATE" : 0.01,
+    "AUDIO_FFT_SMOOTH_WINDOW" : 7,
+    "AUDIO_MIN_FREQUENCY" : 160,
+    "AUDIO_MAX_FREQUENCY" : 20000,
+    "BAR_HEIGHT_SCALING" : 0.5,
+    "DECAY_BAR_HEIGHT" : 0.1,
+
+    "SHADER_PATHS" : [
+        // \/\/\/ DON'T TOUCH THIS vertex_shader.glsl LINE, IT'S NEEDED TO SETUP THE SCREEN THAT THE IMAGE IS DISPLAYED ON.
+        ["src/shaders/vertex_shader.glsl", "VERTEX"],
+        ["src/shaders/simple_line.glsl", "FRAGMENT"]
+    ],
+    //"SCREEN_SIZE" : [1000, 250],
+    "MAX_CLOCK_RATE" : 60,
+    "BACKGROUND_COLOR" : "0.0, 0.0, 0.0",
+    "FFT_BAR_COLOR" : "1.0, 1.0, 1.0",
+    "DECAY_BAR_COLOR" : "1.0, 0.0, 0.0"
+}
